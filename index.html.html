@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PeakWork — Business & Productivity Blog</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e0e;
+    --surface: #161616;
+    --card: #1c1c1c;
+    --accent: #d4a843;
+    --accent2: #e8c878;
+    --text: #f0ede8;
+    --muted: #888;
+    --border: #2a2a2a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(14,14,14,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--accent); }
+
+  nav ul {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  nav ul a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  nav ul a:hover { color: var(--accent); }
+
+  .nav-cta {
+    background: var(--accent);
+    color: #000 !important;
+    padding: 0.5rem 1.2rem;
+    border-radius: 2px;
+    font-weight: 500 !important;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 60% 40%, rgba(212,168,67,0.08) 0%, transparent 70%);
+  }
+
+  .hero-line {
+    position: absolute;
+    top: 0; bottom: 0;
+    right: 38%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--border) 20%, var(--border) 80%, transparent);
+  }
+
+  .hero-content {
+    max-width: 600px;
+    position: relative;
+    animation: fadeUp 0.9s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(212,168,67,0.3);
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.9s 0.1s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.9s 0.2s ease both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.9s 0.3s ease both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    animation: fadeUp 0.9s 0.4s ease both;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+    padding: 0.85rem 2rem;
+    border: none;
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    padding: 0.85rem 2rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+
+  .btn-ghost:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+  .hero-stats {
+    position: absolute;
+    right: 4rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    animation: fadeUp 0.9s 0.5s ease both;
+  }
+
+  .stat {
+    text-align: right;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.3rem;
+  }
+
+  /* TICKER */
+  .ticker {
+    background: var(--accent);
+    color: #000;
+    padding: 0.7rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-track {
+    display: inline-flex;
+    gap: 3rem;
+    animation: ticker 20s linear infinite;
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .ticker-item {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .ticker-dot {
+    color: rgba(0,0,0,0.4);
+  }
+
+  /* SECTION */
+  section {
+    padding: 6rem 4rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .see-all {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+
+  .see-all:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* FEATURED POST */
+  .featured {
+    background: var(--surface);
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 2px;
+  }
+
+  .featured-main {
+    background: var(--card);
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .featured-main:hover { background: #202020; }
+
+  .featured-main::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+
+  .featured-side {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .side-post {
+    background: var(--card);
+    padding: 2rem;
+    flex: 1;
+    cursor: pointer;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .side-post:hover { background: #202020; }
+
+  .post-category {
+    display: inline-block;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+  }
+
+  .post-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.8rem;
+    letter-spacing: -0.01em;
+  }
+
+  .featured-main .post-title { font-size: 2rem; margin-bottom: 1.2rem; }
+  .side-post .post-title { font-size: 1.15rem; }
+
+  .post-excerpt {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .post-meta-dot { color: var(--border); }
+
+  .read-time {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  /* POSTS GRID */
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .post-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+
+  .post-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(212,168,67,0.3);
+  }
+
+  .post-card-img {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .post-card-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, var(--card));
+  }
+
+  .post-card-body {
+    padding: 1.5rem;
+  }
+
+  .post-card .post-title { font-size: 1.05rem; margin-bottom: 0.6rem; }
+  .post-card .post-excerpt { font-size: 0.85rem; margin-bottom: 1rem; }
+
+  /* NEWSLETTER */
+  .newsletter {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .newsletter-inner {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .newsletter-inner .section-label { display: block; margin-bottom: 0.6rem; }
+
+  .newsletter-inner h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .newsletter-inner p {
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .subscribe-form {
+    display: flex;
+    gap: 0;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .subscribe-form input {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-right: none;
+    color: var(--text);
+    padding: 0.85rem 1.2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    border-radius: 2px 0 0 2px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .subscribe-form input:focus { border-color: var(--accent); }
+  .subscribe-form input::placeholder { color: var(--muted); }
+
+  .subscribe-form button {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    padding: 0.85rem 1.5rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 0 2px 2px 0;
+    transition: background 0.2s;
+  }
+
+  .subscribe-form button:hover { background: var(--accent2); }
+
+  .subscribe-note {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 1rem;
+  }
+
+  /* TOPICS */
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+
+  .topic-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 2rem 1.5rem;
+    cursor: pointer;
+    transition: border-color 0.3s, transform 0.3s;
+    text-align: center;
+  }
+
+  .topic-card:hover {
+    border-color: rgba(212,168,67,0.4);
+    transform: translateY(-3px);
+  }
+
+  .topic-icon { font-size: 2rem; margin-bottom: 1rem; }
+
+  .topic-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .topic-count {
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 4rem 4rem 2rem;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-brand .logo { display: block; margin-bottom: 1rem; font-size: 1.3rem; }
+
+  .footer-brand p {
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.7;
+    max-width: 280px;
+  }
+
+  .footer-col h4 {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-col ul { list-style: none; }
+
+  .footer-col ul li {
+    margin-bottom: 0.7rem;
+  }
+
+  .footer-col ul a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.88rem;
+    transition: color 0.2s;
+  }
+
+  .footer-col ul a:hover { color: var(--text); }
+
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  /* AD SPACES */
+  .ad-banner {
+    background: var(--card);
+    border: 1px dashed var(--border);
+    border-radius: 3px;
+    padding: 1.5rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 2rem 0;
+  }
+
+  .ad-sidebar {
+    background: var(--card);
+    border: 1px dashed var(--border);
+    border-radius: 3px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    nav ul { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .hero { padding: 7rem 1.5rem 4rem; }
+    .hero-stats { display: none; }
+    .hero-line { display: none; }
+    .featured-grid { grid-template-columns: 1fr; }
+    .posts-grid { grid-template-columns: 1fr; }
+    .topics-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Peak<span>Work</span></a>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Productivity</a></li>
+    <li><a href="#">Business</a></li>
+    <li><a href="#">Tools</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#newsletter" class="nav-cta">Subscribe</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-line"></div>
+  <div class="hero-content">
+    <span class="hero-tag">✦ New articles every week</span>
+    <h1>Work <em>Smarter,</em><br>Earn More.</h1>
+    <p>Practical insights on productivity, business growth, and building wealth. Written for ambitious people who want real results.</p>
+    <div class="hero-actions">
+      <a href="#featured" class="btn-primary">Read Latest Posts</a>
+      <a href="#newsletter" class="btn-ghost">Get Free Newsletter</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">12k+</div>
+      <div class="stat-label">Monthly Readers</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">240+</div>
+      <div class="stat-label">Articles Published</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">4.9★</div>
+      <div class="stat-label">Reader Rating</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">Productivity Tips</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item">Side Hustle Ideas</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item">Business Strategy</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item">Time Management</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item">Remote Work</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item">Financial Freedom</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item">Career Growth</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item">Entrepreneurship</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item">Productivity Tips</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item">Side Hustle Ideas</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item">Business Strategy</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item">Time Management</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item">Remote Work</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item">Financial Freedom</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item">Career Growth</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item">Entrepreneurship</span>
+    <span class="ticker-dot">◆</span>
+  </div>
+</div>
+
+<!-- AD BANNER (top) -->
+<div style="padding: 1.5rem 4rem 0;">
+  <div class="ad-banner">Advertisement — Your Ad Here (728×90)</div>
+</div>
+
+<!-- FEATURED POSTS -->
+<section id="featured" class="featured">
+  <div class="section-header">
+    <div>
+      <div class="section-label">✦ Editor's Pick</div>
+      <h2 class="section-title">Featured Stories</h2>
+    </div>
+    <a href="#" class="see-all">View All Articles →</a>
+  </div>
+
+  <div class="featured-grid">
+    <div class="featured-main">
+      <span class="post-category">Productivity</span>
+      <h2 class="post-title">The 5 AM Framework: How Top CEOs Structure Their Morning to Win the Day</h2>
+      <p class="post-excerpt">What separates highly successful people from everyone else isn't talent — it's their morning routine. We analyzed the habits of 50 CEOs and found a clear pattern you can copy starting tomorrow.</p>
+      <div class="post-meta">
+        <span>By James Osei</span>
+        <span class="post-meta-dot">•</span>
+        <span>March 20, 2026</span>
+        <span class="post-meta-dot">•</span>
+        <span class="read-time">⏱ 7 min read</span>
+      </div>
+    </div>
+
+    <div class="featured-side">
+      <div class="side-post">
+        <span class="post-category">Business</span>
+        <h3 class="post-title">How to Turn a $0 Skill Into a $3,000/Month Side Business</h3>
+        <p class="post-excerpt">You don't need startup capital. You need the right skill and the right audience.</p>
+        <div class="post-meta">
+          <span>Mar 18</span>
+          <span class="post-meta-dot">•</span>
+          <span class="read-time">⏱ 5 min</span>
+        </div>
+      </div>
+      <div class="side-post">
+        <span class="post-category">Tools</span>
+        <h3 class="post-title">10 Free AI Tools That Replace $500/Month in Subscriptions</h3>
+        <p class="post-excerpt">Stop overpaying for software. These free tools do the same job — or better.</p>
+        <div class="post-meta">
+          <span>Mar 15</span>
+          <span class="post-meta-dot">•</span>
+          <span class="read-time">⏱ 4 min</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LATEST POSTS -->
+<section>
+  <div class="section-header">
+    <div>
+      <div class="section-label">✦ Fresh Content</div>
+      <h2 class="section-title">Latest Articles</h2>
+    </div>
+    <a href="#" class="see-all">Browse All →</a>
+  </div>
+
+  <div class="posts-grid">
+    <div class="post-card">
+      <div class="post-card-img" style="background: linear-gradient(135deg, #1a1a2e, #16213e);">📊</div>
+      <div class="post-card-body">
+        <span class="post-category">Finance</span>
+        <h3 class="post-title">The Simple Budget System That Helped Me Save 40% of My Income</h3>
+        <p class="post-excerpt">No spreadsheets, no complexity. Just a system that works for real people.</p>
+        <div class="post-meta">
+          <span>Mar 22</span>
+          <span class="post-meta-dot">•</span>
+          <span>6 min read</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card">
+      <div class="post-card-img" style="background: linear-gradient(135deg, #1a2e1a, #162116);">🚀</div>
+      <div class="post-card-body">
+        <span class="post-category">Entrepreneurship</span>
+        <h3 class="post-title">From Idea to First $1,000: A Step-by-Step Launch Playbook</h3>
+        <p class="post-excerpt">Most people overthink launching. Here's the fastest path to your first dollar.</p>
+        <div class="post-meta">
+          <span>Mar 19</span>
+          <span class="post-meta-dot">•</span>
+          <span>8 min read</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card">
+      <div class="post-card-img" style="background: linear-gradient(135deg, #2e1a1a, #211616);">🧠</div>
+      <div class="post-card-body">
+        <span class="post-category">Mindset</span>
+        <h3 class="post-title">Deep Work vs Shallow Work: Why You're Busy But Not Getting Anywhere</h3>
+        <p class="post-excerpt">Busyness is not productivity. Here's how to tell the difference and fix it.</p>
+        <div class="post-meta">
+          <span>Mar 17</span>
+          <span class="post-meta-dot">•</span>
+          <span>5 min read</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card">
+      <div class="post-card-img" style="background: linear-gradient(135deg, #1e1a2e, #17162e);">💼</div>
+      <div class="post-card-body">
+        <span class="post-category">Career</span>
+        <h3 class="post-title">How to Ask for a Raise and Actually Get It (Scripts Included)</h3>
+        <p class="post-excerpt">Most people never ask. The ones who do, often do it wrong. Here's the right way.</p>
+        <div class="post-meta">
+          <span>Mar 14</span>
+          <span class="post-meta-dot">•</span>
+          <span>6 min read</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card">
+      <div class="post-card-img" style="background: linear-gradient(135deg, #2e2a1a, #211e16);">⚡</div>
+      <div class="post-card-body">
+        <span class="post-category">Productivity</span>
+        <h3 class="post-title">The 2-Minute Rule and 9 Other Habits That Changed How I Work</h3>
+        <p class="post-excerpt">Small habits compound. These ten changed my output dramatically over 90 days.</p>
+        <div class="post-meta">
+          <span>Mar 12</span>
+          <span class="post-meta-dot">•</span>
+          <span>7 min read</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card">
+      <div class="post-card-img" style="background: linear-gradient(135deg, #1a2e2a, #162118);">🌍</div>
+      <div class="post-card-body">
+        <span class="post-category">Remote Work</span>
+        <h3 class="post-title">How to Find High-Paying Remote Jobs in Africa (2026 Guide)</h3>
+        <p class="post-excerpt">Remote work is exploding globally. Here's how to position yourself to get hired.</p>
+        <div class="post-meta">
+          <span>Mar 10</span>
+          <span class="post-meta-dot">•</span>
+          <span>9 min read</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ad between content -->
+  <div class="ad-banner" style="margin-top: 3rem;">Advertisement — Leaderboard Ad (728×90)</div>
+</section>
+
+<!-- TOPICS -->
+<section style="background: var(--surface); border-top: 1px solid var(--border);">
+  <div class="section-header">
+    <div>
+      <div class="section-label">✦ Explore</div>
+      <h2 class="section-title">Browse by Topic</h2>
+    </div>
+  </div>
+  <div class="topics-grid">
+    <div class="topic-card">
+      <div class="topic-icon">⚡</div>
+      <div class="topic-name">Productivity</div>
+      <div class="topic-count">48 Articles</div>
+    </div>
+    <div class="topic-card">
+      <div class="topic-icon">💼</div>
+      <div class="topic-name">Business</div>
+      <div class="topic-count">62 Articles</div>
+    </div>
+    <div class="topic-card">
+      <div class="topic-icon">💰</div>
+      <div class="topic-name">Finance</div>
+      <div class="topic-count">35 Articles</div>
+    </div>
+    <div class="topic-card">
+      <div class="topic-icon">🛠️</div>
+      <div class="topic-name">Tools & Apps</div>
+      <div class="topic-count">29 Articles</div>
+    </div>
+    <div class="topic-card">
+      <div class="topic-icon">🚀</div>
+      <div class="topic-name">Startups</div>
+      <div class="topic-count">41 Articles</div>
+    </div>
+    <div class="topic-card">
+      <div class="topic-icon">🧠</div>
+      <div class="topic-name">Mindset</div>
+      <div class="topic-count">27 Articles</div>
+    </div>
+    <div class="topic-card">
+      <div class="topic-icon">💻</div>
+      <div class="topic-name">Remote Work</div>
+      <div class="topic-count">33 Articles</div>
+    </div>
+    <div class="topic-card">
+      <div class="topic-icon">📈</div>
+      <div class="topic-name">Career Growth</div>
+      <div class="topic-count">44 Articles</div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section id="newsletter" class="newsletter">
+  <div class="newsletter-inner">
+    <span class="section-label">✦ Free Newsletter</span>
+    <h2>Get Smarter<br>Every Week</h2>
+    <p>Join 12,000+ readers who get our best productivity and business tips delivered to their inbox every Tuesday. Free, forever.</p>
+    <div class="subscribe-form">
+      <input type="email" placeholder="Enter your email address...">
+      <button>Subscribe</button>
+    </div>
+    <p class="subscribe-note">No spam. Unsubscribe anytime. 100% free.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo">Peak<span>Work</span></a>
+      <p>Practical insights on productivity, business, and building a life you're proud of. Written for ambitious people everywhere.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Topics</h4>
+      <ul>
+        <li><a href="#">Productivity</a></li>
+        <li><a href="#">Business</a></li>
+        <li><a href="#">Finance</a></li>
+        <li><a href="#">Remote Work</a></li>
+        <li><a href="#">Career</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Write for Us</a></li>
+        <li><a href="#">Advertise</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Use</a></li>
+        <li><a href="#">Cookie Policy</a></li>
+        <li><a href="#">Disclaimer</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 PeakWork. All rights reserved.</span>
+    <span>Made with purpose. Built to grow.</span>
+  </div>
+</footer>
+
+<script>
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+
+  // Subscribe button feedback
+  const form = document.querySelector('.subscribe-form');
+  if (form) {
+    form.querySelector('button').addEventListener('click', () => {
+      const input = form.querySelector('input');
+      if (input.value.includes('@')) {
+        form.innerHTML = '<p style="color: var(--accent); font-size: 1rem; font-weight: 500;">✓ You\'re in! Check your inbox for a welcome email.</p>';
+      } else {
+        input.style.borderColor = '#c0392b';
+        input.placeholder = 'Please enter a valid email...';
+      }
+    });
+  }
+
+  // Card hover glow effect
+  document.querySelectorAll('.post-card, .topic-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      card.style.background = `radial-gradient(circle at ${x}% ${y}%, #222, var(--card))`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.background = '';
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.post-card, .topic-card, .side-post').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease, background 0.3s, border-color 0.3s';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
